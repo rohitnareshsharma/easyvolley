@@ -1,15 +1,14 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 27
-
-
 
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.6"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -17,7 +16,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -34,7 +33,6 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.0'
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    implementation 'com.android.support:appcompat-v7:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -42,18 +40,18 @@ dependencies {
 
 ext {
     bintrayRepo = 'EasyVolley'
-    bintrayName = 'EasyVolley'
+    bintrayName = 'easyvolley'
 
-    publishedGroupId = 'spandexship'
-    libraryName = 'EasyVolley'
-    artifact = 'EasyVolley'
+    publishedGroupId = 'com.spandexship'
+    libraryName = 'easyvolley'
+    artifact = 'easyvolley'
 
     libraryDescription = 'Volley + GSON + Easy Interface.'
 
     siteUrl = 'https://github.com/rohitnareshsharma/easyvolley'
     gitUrl = 'https://github.com/rohitnareshsharma/easyvolley.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '0.1.0'
 
     developerId = 'spandexship'
     developerName = 'Rohit Sharma'
