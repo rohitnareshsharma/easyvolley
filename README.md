@@ -8,8 +8,8 @@ from the servers is important, But also to parse it in usable form is equally im
 
 Both of these operations needs to be fast and light on memory, thread and cpu usage.
 Thanks to open source communities. We have networking libraries like 
-<a href="https://github.com/google/volley">Volley</> and JSON mappers like 
-<a href="https://github.com/google/gson">GSON</> that do these jobs beautifully.
+<a href="https://github.com/google/volley">Volley</a> and JSON mappers like 
+<a href="https://github.com/google/gson">GSON</a> that do these jobs beautifully.
 
 EasyVolley is a wrapper that has combined both of these great utilities and also has provided
 a super easy wrapper classes for easy integration with apps. 
@@ -18,6 +18,20 @@ Wrapper code is super light. Hardly 500 lines of code.
 Why Volley and not the Retrofit? I personally like Volley because of its simplicity and so easy 
 customization. Also i feel it pain declaring interfaces just for network calls. I like bare naked
 url endpoint. Smaller the code better it is.
+
+# Caching
+
+Caching is super important to ensure our responses are fast and bandwidth usage is minimal.
+Volley is configured to use 20MB disk cache. Make sure to use cache-control and expiry headers
+properly in the network response header coming from servers. 
+You can change this disk cache size by using 
+
+```java
+NetworkClient.setDiskCacheSizeBytes(diskCacheSizeBytesMs);
+```
+
+ETAG support auto works in requests. You will get cached copy if server is returning 304. 
+
 
 # Gradle
 ```groovy
