@@ -1,7 +1,128 @@
-<img src=https://raw.githubusercontent.com/rohitnareshsharma/easyvolley/master/assets/download.jpg >
+<img src=https://raw.githubusercontent.com/rohitnareshsharma/easyvolley/master/assets/readme_header.jpg >
 
 # easyvolley
 Volley + GSON + Easy Interface
 
+Networking is a part of every application we build these days. Not only just getting the data 
+from the servers is important, But also to parse it in usable form is equally important.
+
+Both of these operations needs to be fast and light on memory, thread and cpu usage.
+Thanks to open source communities. We have networking libraries like 
+<a href="https://github.com/google/volley">Volley</a> and JSON mappers like 
+<a href="https://github.com/google/gson">GSON</a> that do these jobs beautifully.
+
+EasyVolley is a wrapper that has combined both of these great utilities and also has provided
+a super easy wrapper classes for easy integration with apps. 
+Wrapper code is super light. Hardly 500 lines of code. 
+
+Why Volley and not the Retrofit? I personally like Volley because of its simplicity and so easy 
+customization. Also i feel it pain declaring interfaces just for network calls. I like bare naked
+url endpoint. Smaller the code better it is.
+
+# Caching
+
+Caching is super important to ensure our responses are fast and bandwidth usage is minimal.
+Volley is configured to use 20MB disk cache. Make sure to use cache-control and expiry headers
+properly in the network response header coming from servers. 
+You can change this disk cache size by using 
+
+```java
+NetworkClient.setDiskCacheSizeBytes(diskCacheSizeBytesMs);
+```
+
+ETAG support auto works in requests. You will get cached copy if server is returning 304. 
+
+
 # Gradle
-compile 'com.spandexship:easyvolley:0.1.0'
+```groovy
+implementation 'com.spandexship:easyvolley:0.1.0'
+```
+
+# How to use it
+
+Add this line in your application onCreate().
+```java
+NetworkClient.init(this);
+```
+
+You are done. 
+
+<b>Whatever Type you will pass in the Callback generics tag. 
+   Your response will be parsed accodringly</b>
+
+Now make GET request like below to get raw response in String.
+```java
+        NetworkClient.get("http://demo0736492.mockable.io/test")
+                .setCallback(new Callback<String>() {
+                    @Override
+                    public void onSuccess(String o) {
+                        Log.d(TAG, "Response is + o");
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Log.e(TAG, "Something Went Wrong " + errorMessage);
+                    }
+                }).execute();
+```
+
+Make GET request auto mapped to a POJO.
+```java
+        NetworkClient.get("http://demo0736492.mockable.io/test")
+                .setCallback(new Callback<Test>() {
+                    @Override
+                    public void onSuccess(Test o) {
+                        Log.d(TAG, "Response Recieved" + o.msg);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Log.e(TAG, "Something Went Wrong " + errorMessage);
+                    }
+                }).execute();
+                    
+        // Test class 
+        public class Test {
+            String msg;
+            int id;
+        }              
+```
+
+Make GET request auto mapped to a JSONObject.
+```java
+        NetworkClient.get("http://demo0736492.mockable.io/test")
+                .setCallback(new Callback<JSONObject>() {
+                    @Override
+                    public void onSuccess(JSONObject o) {
+                        Log.d(TAG, "Response Recieved" + o);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Log.e(TAG, "Something Went Wrong " + errorMessage);
+                    }
+                }).execute();
+```
+
+Make POST request and response auto mapped to a POJO.
+```java
+        NetworkClient.post("http://demo0736492.mockable.io/postTest")
+                .setRequestBody("Test Post Body")
+                .setCallback(new Callback<Test>() {
+                    @Override
+                    public void onSuccess(Test o) {
+                        Log.d(TAG, "Response Recieved" + o.msg);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Log.e(TAG, "Something Went Wrong " + errorMessage);
+                    }
+                }).execute();
+```
+
+
+
+
+
+
