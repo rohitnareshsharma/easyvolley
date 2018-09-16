@@ -18,7 +18,7 @@ public interface Callback<T> {
     void onSuccess(T t);
 
     // Failure event delegate. We need to pass more details here.
-    void onError(String errorMessage);
+    void onError(EasyVolleyError error);
 
     /**
      * This is sorcery. This is done to know the Type passed in Callback

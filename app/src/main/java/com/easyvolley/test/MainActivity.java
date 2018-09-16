@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.easyvolley.Callback;
+import com.easyvolley.EasyVolleyError;
 import com.easyvolley.NetworkClient;
 
 import java.util.List;
@@ -36,21 +37,22 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onError(String errorMessage) {
-
+                    public void onError(EasyVolleyError error) {
+                        text1.setText(error.mMessage + " Error Occured");
                     }
-                }).execute();
+                })
+                .execute();
 
         NetworkClient.get("http://demo0736492.mockable.io/test")
                 .setCallback(new Callback<Test>() {
                     @Override
                     public void onSuccess(Test o) {
-                        text2.setText(o.msg + " Response Recieved");
+                        text2.setText(o.msg);
                     }
 
                     @Override
-                    public void onError(String errorMessage) {
-
+                    public void onError(EasyVolleyError error) {
+                        text2.setText(error.mMessage + " Error Occured");
                     }
                 }).execute();
 
@@ -62,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onError(String errorMessage) {
-
+                    public void onError(EasyVolleyError error) {
+                        text3.setText(error.mMessage + " Error Occured");
                     }
                 }).execute();
 
@@ -75,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onError(String errorMessage) {
-                        text4.setText(errorMessage);
+                    public void onError(EasyVolleyError error) {
+                        text4.setText(error.mMessage + " Error Occured");
                     }
                 }).execute();
 

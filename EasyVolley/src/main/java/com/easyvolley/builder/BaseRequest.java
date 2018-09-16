@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import com.android.volley.VolleyError;
 import com.easyvolley.Callback;
+import com.easyvolley.EasyVolleyError;
 import com.easyvolley.dispatcher.ResponseDispatcher;
 
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public abstract class BaseRequest<T extends BaseRequest> {
     // Target url of the network request
     private String mUrl;
 
-    // Callback from the client implementation for receiving network request events.
+    // Callback from the client implementation for receiving network request success/fail events.
     private Callback mCallback;
 
     // Request header set from the client implementation to be added in NetworkRequest
@@ -121,7 +122,7 @@ public abstract class BaseRequest<T extends BaseRequest> {
      */
     /*package*/ void onError(VolleyError error) {
         if(mCallback != null) {
-            mCallback.onError(error.getMessage());
+            mCallback.onError(EasyVolleyError.from(error));
         }
     }
 
