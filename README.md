@@ -35,7 +35,7 @@ ETAG support auto works in requests. You will get cached copy if server is retur
 
 # Gradle
 ```groovy
-implementation 'com.spandexship:easyvolley:0.1.0'
+implementation 'com.spandexship:easyvolley:0.1.1'
 ```
 
 # How to use it
@@ -60,8 +60,8 @@ Now make GET request like below to get raw response in String.
                     }
 
                     @Override
-                    public void onError(String errorMessage) {
-                        Log.e(TAG, "Something Went Wrong " + errorMessage);
+                    public void onError(EasyVolleyError error) {
+                        Log.e(TAG, "Something Went Wrong " + error.mMessage);
                     }
                 }).execute();
 ```
@@ -76,8 +76,8 @@ Make GET request auto mapped to a POJO.
                     }
 
                     @Override
-                    public void onError(String errorMessage) {
-                        Log.e(TAG, "Something Went Wrong " + errorMessage);
+                    public void onError(EasyVolleyError error) {
+                        Log.e(TAG, "Something Went Wrong " + error.mMessage);
                     }
                 }).execute();
                     
@@ -98,8 +98,8 @@ Make GET request auto mapped to a JSONObject.
                     }
 
                     @Override
-                    public void onError(String errorMessage) {
-                        Log.e(TAG, "Something Went Wrong " + errorMessage);
+                    public void onError(EasyVolleyError error) {
+                        Log.e(TAG, "Something Went Wrong " + error.mMessage);
                     }
                 }).execute();
 ```
@@ -115,8 +115,8 @@ Make POST request and response auto mapped to a POJO.
                     }
 
                     @Override
-                    public void onError(String errorMessage) {
-                        Log.e(TAG, "Something Went Wrong " + errorMessage);
+                    public void onError(EasyVolleyError error) {
+                        Log.e(TAG, "Something Went Wrong " + error.mMessage);
                     }
                 }).execute();
 ```
