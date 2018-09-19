@@ -5,6 +5,9 @@ import android.net.Uri;
 import com.android.volley.VolleyError;
 import com.easyvolley.Callback;
 import com.easyvolley.EasyVolleyError;
+import com.easyvolley.NetworkClient;
+import com.easyvolley.NetworkPolicy;
+import com.easyvolley.NetworkRequest;
 import com.easyvolley.dispatcher.ResponseDispatcher;
 
 import java.util.HashMap;
@@ -35,6 +38,9 @@ public abstract class BaseRequest<T extends BaseRequest> {
 
     // Uri builder for url modification. Like adding a query parameter.
     private Uri.Builder builder;
+
+    // Network policy of the request.
+    private NetworkPolicy mNetworkPolicy = NetworkPolicy.DEFAULT;
 
     /*package*/ BaseRequest(String url) {
         mUrl = url;
@@ -106,6 +112,27 @@ public abstract class BaseRequest<T extends BaseRequest> {
     }
 
     /**
+     * Set the network policy of the request. See {@link NetworkPolicy}
+     *
+     * @param networkPolicy Network policy of the request.
+     * @return current builder object
+     */
+    public T setNetworkPolicy(NetworkPolicy networkPolicy) {
+        if(networkPolicy != null) mNetworkPolicy = networkPolicy;
+        return (T)this;
+    }
+
+    /**
+     * Gets the current network policy of the request.
+     *
+     * @see NetworkPolicy
+     * @return
+     */
+    public NetworkPolicy getNetworkPolicy() {
+        return mNetworkPolicy;
+    }
+
+    /**
      * Internal Volley response handler. It will dispatch response
      * correctly to the client.
      *
@@ -124,6 +151,23 @@ public abstract class BaseRequest<T extends BaseRequest> {
         if(mCallback != null) {
             mCallback.onError(EasyVolleyError.from(error));
         }
+    }
+
+    /**
+     * Add the request to network/cache queue
+     * @param request
+     */
+    protected void add(NetworkRequest request) {
+        if(mNetworkPolicy == NetworkPolicy.OFFLINE) {
+            NetworkClient.addCacheOnlyRequest(request);
+            return;
+        }
+
+        // See if no cache mode is requested.
+        request.setShouldCache(mNetworkPolicy != NetworkPolicy.NO_CACHE);
+
+        // Enqueue it to network queue
+        NetworkClient.addNetworkRequest(request);
     }
 
     /**

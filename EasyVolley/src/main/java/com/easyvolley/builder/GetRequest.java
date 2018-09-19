@@ -1,6 +1,5 @@
 package com.easyvolley.builder;
 
-import com.easyvolley.NetworkClient;
 import com.easyvolley.NetworkRequest;
 
 /**
@@ -34,7 +33,7 @@ public class GetRequest extends BaseRequest<GetRequest> {
         NetworkRequest request = new NetworkRequest(getUrl(), getHeaders(), this::onResponse, this::onError);
 
         // Enqueue it
-        NetworkClient.getRequestQueue().add(request);
+        add(request);
     }
 
 }

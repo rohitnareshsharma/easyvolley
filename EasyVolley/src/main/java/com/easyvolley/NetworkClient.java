@@ -3,15 +3,22 @@ package com.easyvolley;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.android.volley.Cache;
+import com.android.volley.ExecutorDelivery;
 import com.android.volley.Network;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.easyvolley.builder.GetRequest;
 import com.easyvolley.builder.PostRequest;
+import com.easyvolley.dispatcher.CacheOnlyDispatcher;
+
+import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * NetworkClient framework for android app. It has currently wrapped
@@ -52,6 +59,11 @@ public class NetworkClient {
     // Volley request queue
     private RequestQueue mRequestQueue;
 
+    /** The cache triage queue. */
+    private PriorityBlockingQueue<NetworkRequest> mCacheOnlyQueue;
+
+    private CacheOnlyDispatcher mCacheOnlyDispatcher;
+
     /**
      * Initialise the network client. Call this method preferably
      * in {@link Application#onCreate()}
@@ -84,6 +96,21 @@ public class NetworkClient {
         }
     }
 
+    // init app cache only request queue.
+    private void initCacheOnlyRequestQueue() {
+        // Kill any previous if alive
+        if(mCacheOnlyDispatcher != null) {
+            mCacheOnlyDispatcher.quit();
+        }
+
+        mCacheOnlyQueue = new PriorityBlockingQueue<>();
+
+        mCacheOnlyDispatcher = new CacheOnlyDispatcher(mCacheOnlyQueue, mRequestQueue.getCache(),
+                new ExecutorDelivery(new Handler(Looper.getMainLooper())));
+
+        mCacheOnlyDispatcher.start();
+    }
+
     /**
      * Set the disk cache size for network client.
      * Default is 20MB.
@@ -102,6 +129,38 @@ public class NetworkClient {
      */
     public static RequestQueue getRequestQueue() {
         return instance.mRequestQueue;
+    }
+
+    /**
+     * Add request to network request queue.
+     * Activity code should not use this method.
+     * @see NetworkClient for available interface for client code
+     * for making any type of request.
+     */
+    public static void addNetworkRequest(Request<?> request) {
+        instance.mRequestQueue.add(request);
+    }
+
+    /**
+     * Add request to cache only queue.
+     * Activity code should not use this method.
+     * @see NetworkClient for available interface for client code
+     * for making any type of request.
+     */
+    public static void addCacheOnlyRequest(NetworkRequest networkRequest) {
+
+        if(instance.mCacheOnlyQueue == null) {
+            instance.initCacheOnlyRequestQueue();
+        }
+
+        instance.mCacheOnlyQueue.add(networkRequest);
+    }
+
+    /**
+     * Drop all the network cache.
+     */
+    public static void dropAllCache() {
+        instance.mRequestQueue.getCache().clear();
     }
 
     /**

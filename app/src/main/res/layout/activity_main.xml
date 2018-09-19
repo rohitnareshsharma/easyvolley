@@ -31,4 +31,17 @@
         android:layout_height="wrap_content"
         android:text="Hello World!" />
 
+    <Button
+        android:id="@+id/btn_make_offline_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make offline request" />
+
+    <Button
+        android:id="@+id/btn_drop_cache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Drop All Cache" />
+
+
 </LinearLayout>

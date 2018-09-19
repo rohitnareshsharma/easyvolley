@@ -1,7 +1,6 @@
 package com.easyvolley.builder;
 
 import com.android.volley.Request;
-import com.easyvolley.NetworkClient;
 import com.easyvolley.NetworkRequest;
 
 import java.nio.charset.Charset;
@@ -87,7 +86,7 @@ public class PostRequest extends BaseRequest<PostRequest> {
                 getUrl(), getHeaders(), mParams, mRequestBody, this::onResponse, this::onError);
 
         // Enqueue it
-        NetworkClient.getRequestQueue().add(request);
+        add(request);
     }
 
 }

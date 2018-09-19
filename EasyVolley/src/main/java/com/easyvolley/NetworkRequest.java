@@ -130,7 +130,7 @@ public class NetworkRequest extends StringRequest {
 
     // Handle the network response here. All interceptors will get the opportunity here.
     @Override
-    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+    public Response<String> parseNetworkResponse(NetworkResponse response) {
 
         // Check for interceptors if any
         for(Interceptor i : interceptors) {
