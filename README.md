@@ -35,7 +35,7 @@ ETAG support auto works in requests. You will get cached copy if server is retur
 
 # Gradle
 ```groovy
-implementation 'com.spandexship:easyvolley:0.1.1'
+implementation 'com.spandexship:easyvolley:0.1.2'
 ```
 
 # How to use it
@@ -121,8 +121,29 @@ Make POST request and response auto mapped to a POJO.
                 }).execute();
 ```
 
+# NetworkPolicy
 
+Framework support 3 network policies for request.
 
+1. NetworkPolicy.NO_CACHE : Ignore disk cache and force network request. Response will not be cached also
+2. NetworkPolicy.OFFLINE : Check through disk cache only. No network.
+3. NetworkPolicy.DEFAULT : Check with cache if valid return from it else make network call.
+
+```java
+        NetworkClient.get("http://demo0736492.mockable.io/test")
+                .setNetworkPolicy(NetworkPolicy.OFFLINE)
+                .setCallback(new Callback<JSONObject>() {
+                    @Override
+                    public void onSuccess(JSONObject o) {
+                        Log.d(TAG, "Response Recieved" + o);
+                    }
+
+                    @Override
+                    public void onError(EasyVolleyError error) {
+                        Log.e(TAG, "Something Went Wrong " + error.mMessage);
+                    }
+                }).execute();
+```
 
 
 
