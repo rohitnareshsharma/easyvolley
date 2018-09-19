@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.android.volley.Cache;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.ExecutorDelivery;
 import com.android.volley.Network;
 import com.android.volley.Request;
@@ -14,8 +15,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
-import com.easyvolley.builder.GetRequest;
-import com.easyvolley.builder.PostRequest;
 import com.easyvolley.dispatcher.CacheOnlyDispatcher;
 
 import java.util.concurrent.PriorityBlockingQueue;
@@ -47,6 +46,13 @@ public class NetworkClient {
 
     // Disk cache size in bytes
     private static int defaultDiskCacheSize = 20 * 1024 * 1024;
+
+    /**
+     * Default socket of all the requests.
+     * @see #setDefaultSocketTimeoutMs(int) to change it for all the requests.
+     * @see NetworkRequestBuilder#setSocketTimeoutMS(int) for overriding it for individual request
+     */
+    static int defaultSocketTimeoutMs = DefaultRetryPolicy.DEFAULT_TIMEOUT_MS;
 
     // App context
     @SuppressLint("StaticFieldLeak")
@@ -164,24 +170,97 @@ public class NetworkClient {
     }
 
     /**
+     * Set default socket of all the requests.
+     *
+     * @see NetworkRequestBuilder#setSocketTimeoutMS(int) for overriding it for individual request
+     * @param socketTimeoutMs socket timeout in milliseconds.
+     */
+    public static void setDefaultSocketTimeoutMs(int socketTimeoutMs) {
+        defaultSocketTimeoutMs = socketTimeoutMs;
+    }
+
+    /**
      * Core NetworkClient method to create Get type request.
      * @param url Target network URL
-     * @return {@link GetRequest} builder object with various network related methods available.
+     * @return {@link NetworkRequestBuilder} builder object with various network related methods available.
      */
-    public static GetRequest get(String url) {
-        return new GetRequest(url);
+    public static NetworkRequestBuilder get(String url) {
+        return new NetworkRequestBuilder(url, Request.Method.GET);
     }
 
     /**
      * Core NetworkClient method to create Post type request.
-     * @see PostRequest#setRequestBody(String) for setting the raw body
+     * @see NetworkRequestBuilder#setRequestBody(String) for setting the raw body
      * with the Post request.
      *
      * @param url Target network URL
-     * @return {@link PostRequest} builder object with various network related methods available.
+     * @return {@link NetworkRequestBuilder} builder object with various network related methods available.
      */
-    public static PostRequest post(String url) {
-        return new PostRequest(url);
+    public static NetworkRequestBuilder post(String url) {
+        return new NetworkRequestBuilder(url, Request.Method.POST);
+    }
+
+    /**
+     * Core NetworkClient method to create Put type request.
+     * @see NetworkRequestBuilder#setRequestBody(String) for setting the raw body
+     * with the Put request.
+     *
+     * @param url Target network URL
+     * @return {@link NetworkRequestBuilder} builder object with various network related methods available.
+     */
+    public static NetworkRequestBuilder put(String url) {
+        return new NetworkRequestBuilder(url, Request.Method.PUT);
+    }
+
+    /**
+     * Core NetworkClient method to create Delete type request.
+     *
+     * @param url Target network URL
+     * @return {@link NetworkRequestBuilder} builder object with various network related methods available.
+     */
+    public static NetworkRequestBuilder delete(String url) {
+        return new NetworkRequestBuilder(url, Request.Method.DELETE);
+    }
+
+    /**
+     * Core NetworkClient method to create HEAD type request.
+     *
+     * @param url Target network URL
+     * @return {@link NetworkRequestBuilder} builder object with various network related methods available.
+     */
+    public static NetworkRequestBuilder head(String url) {
+        return new NetworkRequestBuilder(url, Request.Method.HEAD);
+    }
+
+
+    /**
+     * Core NetworkClient method to create OPTIONS type request.
+     *
+     * @param url Target network URL
+     * @return {@link NetworkRequestBuilder} builder object with various network related methods available.
+     */
+    public static NetworkRequestBuilder options(String url) {
+        return new NetworkRequestBuilder(url, Request.Method.OPTIONS);
+    }
+
+    /**
+     * Core NetworkClient method to create TRACE type request.
+     *
+     * @param url Target network URL
+     * @return {@link NetworkRequestBuilder} builder object with various network related methods available.
+     */
+    public static NetworkRequestBuilder trace(String url) {
+        return new NetworkRequestBuilder(url, Request.Method.TRACE);
+    }
+
+    /**
+     * Core NetworkClient method to create Patch type request.
+     *
+     * @param url Target network URL
+     * @return {@link NetworkRequestBuilder} builder object with various network related methods available.
+     */
+    public static NetworkRequestBuilder patch(String url) {
+        return new NetworkRequestBuilder(url, Request.Method.PATCH);
     }
 
 }

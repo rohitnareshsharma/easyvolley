@@ -12,6 +12,9 @@ import com.easyvolley.NetworkPolicy;
 
 import java.util.List;
 
+/**
+ * Sample Activity
+ */
 public class MainActivity extends AppCompatActivity {
 
     private TextView text1;
@@ -71,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                         text3.setText(error.mMessage + " Error Occured");
                     }
                 }).execute();
-
 
         findViewById(R.id.btn_make_offline_request).setOnClickListener(v -> {
             NetworkClient.get("http://demo0736492.mockable.io/test")
