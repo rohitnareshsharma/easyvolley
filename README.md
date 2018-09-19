@@ -1,6 +1,6 @@
 <img src=https://raw.githubusercontent.com/rohitnareshsharma/easyvolley/master/assets/readme_header.jpg >
 
-# easyvolley
+# Easyvolley
 Volley + GSON + Easy Interface
 
 Networking is a part of every application we build these days. Not only just getting the data 
@@ -35,7 +35,7 @@ ETAG support auto works in requests. You will get cached copy if server is retur
 
 # Gradle
 ```groovy
-implementation 'com.spandexship:easyvolley:0.1.2'
+implementation 'com.spandexship:easyvolley:0.1.3'
 ```
 
 # How to use it
