@@ -82,6 +82,18 @@ public class NetworkClient {
         }
     }
 
+    /**
+     * Initialise the network client. Call this method preferably
+     * in {@link Application#onCreate()}
+     *
+     * @param app Application context.
+     * @param socketTimeoutMs default socket timeout for all the requests.
+     */
+    public static void init(Application app, int socketTimeoutMs) {
+        init(app);
+        defaultSocketTimeoutMs = socketTimeoutMs;
+    }
+
     // For single ton implementation
     private NetworkClient(Context context) {
         // Save the app context so that our instance remain throughout the app lifespan.
