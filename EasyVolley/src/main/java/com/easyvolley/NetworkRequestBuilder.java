@@ -3,6 +3,7 @@ package com.easyvolley;
 import android.net.Uri;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.easyvolley.dispatcher.ResponseDispatcher;
 
@@ -49,6 +50,9 @@ public class NetworkRequestBuilder {
 
     // backoffMultiplier
     private float mBackoffMultiplier = DefaultRetryPolicy.DEFAULT_BACKOFF_MULT;
+
+    // Core request object
+    private NetworkRequest request;
 
     /*package*/ NetworkRequestBuilder(String url, int requestType) {
         mUrl = url;
@@ -216,7 +220,12 @@ public class NetworkRequestBuilder {
      * @param response String converted network response
      */
     private void onResponse(String response) {
-        ResponseDispatcher.getInstance().dispatch(mCallback, response);
+        NetworkResponse networkResponse = request.getNetworkResponse();
+        if(networkResponse != null) {
+            ResponseDispatcher.getInstance().dispatch(mCallback, response, new EasyVolleyResponse(networkResponse));
+        } else {
+            ResponseDispatcher.getInstance().dispatch(mCallback, response, null);
+        }
     }
 
     /**
@@ -253,7 +262,7 @@ public class NetworkRequestBuilder {
         if(getUrl() == null) throw new IllegalArgumentException("Empty URL for network request");
 
         // Create the request
-        NetworkRequest request = new NetworkRequest(mRequestType,
+        request = new NetworkRequest(mRequestType,
                 getUrl(), mHeaders, mParams, mRequestBody, this::onResponse, this::onError);
 
         request.setRetryPolicy(new DefaultRetryPolicy(mSocketTimeoutMs,

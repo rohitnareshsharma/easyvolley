@@ -2,20 +2,25 @@ package com.easyvolley.test;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.easyvolley.Callback;
 import com.easyvolley.EasyVolleyError;
+import com.easyvolley.EasyVolleyResponse;
 import com.easyvolley.NetworkClient;
 import com.easyvolley.NetworkPolicy;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Sample Activity
  */
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private TextView text1;
     private TextView text2;
@@ -37,8 +42,10 @@ public class MainActivity extends AppCompatActivity {
         NetworkClient.get("http://demo0736492.mockable.io/test")
                 .setCallback(new Callback<String>() {
                     @Override
-                    public void onSuccess(String o) {
+                    public void onSuccess(String o, EasyVolleyResponse response) {
                         text1.setText(o);
+                        Log.d(TAG, response+ "");
+
                     }
 
                     @Override
@@ -52,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
         NetworkClient.get("http://demo0736492.mockable.io/test2")
                 .setCallback(new Callback<List<Test>>() {
                     @Override
-                    public void onSuccess(List<Test> o) {
+                    public void onSuccess(List<Test> o, EasyVolleyResponse response) {
                         text2.setText(o.size() + "");
+                        Log.d(TAG, response+ "");
                     }
 
                     @Override
@@ -65,8 +73,9 @@ public class MainActivity extends AppCompatActivity {
         NetworkClient.post("http://demo0736492.mockable.io/postTest")
                 .setCallback(new Callback<Test>() {
                     @Override
-                    public void onSuccess(Test o) {
+                    public void onSuccess(Test o, EasyVolleyResponse response) {
                         text3.setText("Post success " + o.msg);
+                        Log.d(TAG, response+ "");
                     }
 
                     @Override
@@ -80,8 +89,9 @@ public class MainActivity extends AppCompatActivity {
                     .setNetworkPolicy(NetworkPolicy.OFFLINE)
                     .setCallback(new Callback<Test>() {
                         @Override
-                        public void onSuccess(Test o) {
+                        public void onSuccess(Test o, EasyVolleyResponse response) {
                             text4.setText(o.msg + " Offline Test");
+                            Log.d(TAG, response + "");
                         }
 
                         @Override

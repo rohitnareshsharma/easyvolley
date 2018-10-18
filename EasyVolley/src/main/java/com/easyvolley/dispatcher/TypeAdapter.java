@@ -1,6 +1,7 @@
 package com.easyvolley.dispatcher;
 
 import com.easyvolley.Callback;
+import com.easyvolley.EasyVolleyResponse;
 
 /**
  * Interface to allow {@link ResponseDispatcher} to
@@ -12,5 +13,5 @@ import com.easyvolley.Callback;
  * @author rohitsharma
  */
 public interface TypeAdapter {
-    void processResponse(Callback callback, String response);
+    void processResponse(Callback callback, String responseBody, EasyVolleyResponse easyVolleyResponse);
 }

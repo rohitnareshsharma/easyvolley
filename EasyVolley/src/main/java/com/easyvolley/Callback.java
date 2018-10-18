@@ -15,7 +15,7 @@ import java.lang.reflect.Type;
 public interface Callback<T> {
 
     // Success event delegate. It will received GSON deserialized object response
-    void onSuccess(T t);
+    void onSuccess(T t, EasyVolleyResponse response);
 
     // Failure event delegate. We need to pass more details here.
     void onError(EasyVolleyError error);

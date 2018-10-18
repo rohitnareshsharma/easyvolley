@@ -48,6 +48,9 @@ public class NetworkRequest extends StringRequest {
         add(new GzipInterceptor());
     }};
 
+    // Network response object. It will be null in case request fails.
+    private NetworkResponse networkResponse;
+
     /**
      * NetworkRequest constructor with all method type supported.
      * See {@link Method}
@@ -132,6 +135,9 @@ public class NetworkRequest extends StringRequest {
     @Override
     public Response<String> parseNetworkResponse(NetworkResponse response) {
 
+        // Set the response reference to send it client in the end.
+        this.networkResponse = response;
+
         // Check for interceptors if any
         for(Interceptor i : interceptors) {
             response = i.intercept(response);
@@ -140,4 +146,10 @@ public class NetworkRequest extends StringRequest {
         return super.parseNetworkResponse(response);
     }
 
+    /**
+     * @return NetworkResponse It will be null in case request fails.
+     */
+    public NetworkResponse getNetworkResponse() {
+        return networkResponse;
+    }
 }

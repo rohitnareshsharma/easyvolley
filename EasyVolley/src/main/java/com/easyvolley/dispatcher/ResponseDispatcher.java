@@ -2,7 +2,9 @@ package com.easyvolley.dispatcher;
 
 import android.util.Log;
 
+import com.android.volley.NetworkResponse;
 import com.easyvolley.Callback;
+import com.easyvolley.EasyVolleyResponse;
 import com.easyvolley.dispatcher.adapter.JsonArrayTypeAdapter;
 import com.easyvolley.dispatcher.adapter.JsonObjectTypeAdapter;
 import com.easyvolley.dispatcher.adapter.StringTypeAdapter;
@@ -66,7 +68,7 @@ public class ResponseDispatcher {
     }
 
     // Core dispatch method. TypeAdaptor intercepting will happen here.
-    public void dispatch(Callback callback, String response) {
+    public void dispatch(Callback callback, String responseBody, EasyVolleyResponse response) {
         if(callback != null) {
 
             Type type  = callback.getGenericType();
@@ -75,12 +77,12 @@ public class ResponseDispatcher {
             // Intercept for registered TypeAdaptors
             TypeAdapter adapter = typeAdapterHashMap.get(type);
             if(adapter != null) {
-               adapter.processResponse(callback, response);
+               adapter.processResponse(callback, responseBody, response);
                return;
             }
 
             //Else Parse Using GSON. Must be for Custom POJO
-            callback.onSuccess(gson.create().fromJson(response, type));
+            callback.onSuccess(gson.create().fromJson(responseBody, type), response);
         }
     }
 }

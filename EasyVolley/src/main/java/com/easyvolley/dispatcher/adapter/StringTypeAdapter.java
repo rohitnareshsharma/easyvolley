@@ -1,6 +1,7 @@
 package com.easyvolley.dispatcher.adapter;
 
 import com.easyvolley.Callback;
+import com.easyvolley.EasyVolleyResponse;
 import com.easyvolley.dispatcher.TypeAdapter;
 
 /**
@@ -12,9 +13,9 @@ import com.easyvolley.dispatcher.TypeAdapter;
 public class StringTypeAdapter implements TypeAdapter {
 
     @Override
-    public void processResponse(Callback callback, String response) {
+    public void processResponse(Callback callback, String responseBody, EasyVolleyResponse response) {
         if(callback != null) {
-            callback.onSuccess(response);
+            callback.onSuccess(responseBody, response);
         }
     }
 
