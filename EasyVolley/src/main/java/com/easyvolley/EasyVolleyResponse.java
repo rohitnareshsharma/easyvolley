@@ -53,12 +53,17 @@ public class EasyVolleyResponse {
         mNetworkTimeMs = networkTimeMs;
     }
 
+    public static EasyVolleyResponse fromNetworkResponse(NetworkResponse response) {
+        if(response == null) return null;
+        return new EasyVolleyResponse(response);
+    }
+
     /**
      * EasyVolleyResponse creation based on Volley NetworkResponse
      *
      * @param response Volley NetworkResponse received for the request
      */
-    public EasyVolleyResponse(NetworkResponse response) {
+    private EasyVolleyResponse(NetworkResponse response) {
         this(response.statusCode,
                 response.data,
                 response.headers,

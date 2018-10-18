@@ -13,7 +13,7 @@ import java.util.Map;
  * NOTE: Most of its field can be null. Make sure to check before use.
  * @author rohitsharma
  */
-public class EasyVolleyError {
+public class EasyVolleyError extends Exception {
 
     /** General message about the error */
     public final String mMessage;
@@ -40,6 +40,7 @@ public class EasyVolleyError {
      * @param headers raw headers cominf from the error response.
      */
     public EasyVolleyError(String message, long networkTimeMs, int statusCode, byte[] data, Map<String, String> headers) {
+        super(message);
         mMessage = message;
         mNetworkTimeMs = networkTimeMs;
         mStatusCode = statusCode;

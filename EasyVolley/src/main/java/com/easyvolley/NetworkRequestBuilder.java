@@ -220,12 +220,8 @@ public class NetworkRequestBuilder {
      * @param response String converted network response
      */
     private void onResponse(String response) {
-        NetworkResponse networkResponse = request.getNetworkResponse();
-        if(networkResponse != null) {
-            ResponseDispatcher.getInstance().dispatch(mCallback, response, new EasyVolleyResponse(networkResponse));
-        } else {
-            ResponseDispatcher.getInstance().dispatch(mCallback, response, null);
-        }
+        ResponseDispatcher.getInstance().dispatch(mCallback, response,
+            EasyVolleyResponse.fromNetworkResponse(request.getNetworkResponse()));
     }
 
     /**
