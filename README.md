@@ -158,9 +158,12 @@ before executing, or like adding some thing common to each requests.
                 return request;
             }
         });
+        
+        NetworkClient.addResponseInterceptor(new ResponseInterceptor() {
+            @Override
+            public NetworkResponse intercept(NetworkResponse response) {
+                return response;
+            }
+        });
 ```
-
-
-
-
 
