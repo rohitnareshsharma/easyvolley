@@ -35,7 +35,7 @@ ETAG support auto works in requests. You will get cached copy if server is retur
 
 # Gradle
 ```groovy
-implementation 'com.spandexship:easyvolley:0.1.5'
+implementation 'com.spandexship:easyvolley:0.1.7'
 ```
 
 # How to use it
@@ -144,6 +144,23 @@ Framework support 3 network policies for request.
                     }
                 }).execute();
 ```
+
+# Request and Response Interceptors
+
+Framework support integrating apps to provide HTTP request interceptor and Response interceptors.
+This is helpful for cases like you would want to log perticular request data, or change anything
+before executing, or like adding some thing common to each requests.
+
+```java
+        NetworkClient.addRequestInterceptor(new RequestInterceptor() {
+            @Override
+            public NetworkRequest intercept(NetworkRequest request) {
+                return request;
+            }
+        });
+```
+
+
 
 
 
