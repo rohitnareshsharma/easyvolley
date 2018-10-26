@@ -10,13 +10,19 @@ import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.ExecutorDelivery;
 import com.android.volley.Network;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.easyvolley.dispatcher.CacheOnlyDispatcher;
+import com.easyvolley.interceptors.RequestInterceptor;
+import com.easyvolley.interceptors.ResponseInterceptor;
+import com.easyvolley.interceptors.impl.GzipInterceptor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 
 /**
@@ -69,6 +75,58 @@ public class NetworkClient {
     private PriorityBlockingQueue<NetworkRequest> mCacheOnlyQueue;
 
     private CacheOnlyDispatcher mCacheOnlyDispatcher;
+
+    // List of responseInterceptors for modification of the original response
+    private ArrayList<ResponseInterceptor> responseInterceptors = new ArrayList<ResponseInterceptor>() {{
+        // Default responseInterceptors of NetworkRequest will go hear
+        add(new GzipInterceptor());
+    }};
+
+    // List of requestInterceptors for modification of the original response
+    private ArrayList<RequestInterceptor> requestInterceptors = new ArrayList<RequestInterceptor>() {{
+        // Default requestInterceptors of NetworkRequest will go hear
+
+    }};
+
+    /**
+     * Add interceptor for the network response. See {@link ResponseInterceptor}
+     * Gzip is natively supported by the framework. See {@link GzipInterceptor}
+     * for example implementation.
+     *
+     * Each interceptor will receive {@link NetworkResponse} object.
+     *
+     * @param  responseInterceptor Custom interceptor to be registered.
+     */
+    public void addResponseInterceptor(ResponseInterceptor responseInterceptor) {
+        responseInterceptors.add(responseInterceptor);
+    }
+
+    /**
+     * Add interceptor for the network request. See {@link ResponseInterceptor}
+     * Gzip is natively supported by the framework. See {@link GzipInterceptor}
+     * for example implementation.
+     *
+     * Each interceptor will receive {@link NetworkResponse} object.
+     *
+     * @param  requestInterceptor Custom interceptor to be registered.
+     */
+    public void addRequestInterceptor(RequestInterceptor requestInterceptor) {
+        requestInterceptors.add(requestInterceptor);
+    }
+
+    /**
+     * @return The list of response interceptor
+     */
+    public static List<ResponseInterceptor> getResponseInterceptor() {
+        return instance.responseInterceptors;
+    }
+
+    /**
+     * @return The list of request interceptor
+     */
+    public static List<RequestInterceptor> getRequestInterceptor() {
+        return instance.requestInterceptors;
+    }
 
     /**
      * Initialise the network client. Call this method preferably

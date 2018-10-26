@@ -6,9 +6,12 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.easyvolley.dispatcher.ResponseDispatcher;
+import com.easyvolley.interceptors.RequestInterceptor;
+import com.easyvolley.interceptors.ResponseInterceptor;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,6 +53,9 @@ public class NetworkRequestBuilder {
 
     // backoffMultiplier
     private float mBackoffMultiplier = DefaultRetryPolicy.DEFAULT_BACKOFF_MULT;
+
+
+
 
     // Core request object
     private NetworkRequest request;
@@ -255,6 +261,7 @@ public class NetworkRequestBuilder {
      * Execute the network request.
      */
     public void execute() {
+
         if(getUrl() == null) throw new IllegalArgumentException("Empty URL for network request");
 
         // Create the request
@@ -263,6 +270,13 @@ public class NetworkRequestBuilder {
 
         request.setRetryPolicy(new DefaultRetryPolicy(mSocketTimeoutMs,
                 mMaxNumRetries, mBackoffMultiplier));
+
+        List<RequestInterceptor> requestInterceptors = NetworkClient.getRequestInterceptor();
+
+        // Check for requestInterceptors if any
+        for(RequestInterceptor i : requestInterceptors) {
+            request = i.intercept(request);
+        }
 
         // Enqueue it
         add(request);

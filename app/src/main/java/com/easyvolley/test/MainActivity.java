@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .execute();
 
-
         NetworkClient.get("http://demo0736492.mockable.io/test2")
                 .setCallback(new Callback<List<Test>>() {
                     @Override
@@ -70,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).execute();
 
+
         NetworkClient.post("http://demo0736492.mockable.io/postTest")
                 .setCallback(new Callback<Test>() {
                     @Override
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         text3.setText(error.mMessage + " Error Occured");
                     }
                 }).execute();
+
 
         findViewById(R.id.btn_make_offline_request).setOnClickListener(v -> {
             NetworkClient.get("http://demo0736492.mockable.io/test")

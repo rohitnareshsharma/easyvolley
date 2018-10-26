@@ -6,15 +6,16 @@ import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.easyvolley.interceptors.Interceptor;
+import com.easyvolley.interceptors.ResponseInterceptor;
 import com.easyvolley.interceptors.impl.GzipInterceptor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * Volley StringRequest extension to support features like {@link Interceptor}.
+ * Volley StringRequest extension to support features like {@link ResponseInterceptor}.
  * Default header set and customised etag support. This same request is used
  * for all type Http requests for now (GET|POST)
  *
@@ -40,12 +41,6 @@ public class NetworkRequest extends StringRequest {
     private HashMap<String, String> mHeaders = new HashMap<String, String>(){{
         // Default headers of network request will go here.
         put("Accept-Encoding", "gzip");
-    }};
-
-    // List of interceptors for modification of the original response
-    private ArrayList<Interceptor> interceptors = new ArrayList<Interceptor>() {{
-        // Default interceptors of NetworkRequest will go hear
-        add(new GzipInterceptor());
     }};
 
     // Network response object. It will be null in case request fails.
@@ -93,19 +88,6 @@ public class NetworkRequest extends StringRequest {
         this(Method.GET, url, headers, null, null, listener, errorListener);
     }
 
-    /**
-     * Add interceptor for the network response. See {@link Interceptor}
-     * Gzip is natively supported by the framework. See {@link GzipInterceptor}
-     * for example implementation.
-     *
-     * Each interceptor will receive {@link NetworkResponse} object.
-     *
-     * @param interceptor Custom interceptor to be registered in the Network request.
-     */
-    public void addInterceptor(Interceptor interceptor) {
-        interceptors.add(interceptor);
-    }
-
     // Return the headers for this request. This will be used by Volley network engine
     @Override
     public Map<String, String> getHeaders() {
@@ -131,15 +113,17 @@ public class NetworkRequest extends StringRequest {
         return mParams;
     }
 
-    // Handle the network response here. All interceptors will get the opportunity here.
+    // Handle the network response here. All responseInterceptors will get the opportunity here.
     @Override
     public Response<String> parseNetworkResponse(NetworkResponse response) {
 
         // Set the response reference to send it client in the end.
         this.networkResponse = response;
 
-        // Check for interceptors if any
-        for(Interceptor i : interceptors) {
+        List<ResponseInterceptor> responseInterceptors = NetworkClient.getResponseInterceptor();
+
+        // Check for responseInterceptors if any
+        for(ResponseInterceptor i : responseInterceptors) {
             response = i.intercept(response);
         }
 

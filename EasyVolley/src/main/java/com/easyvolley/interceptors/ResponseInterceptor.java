@@ -10,6 +10,6 @@ import com.android.volley.NetworkResponse;
  *
  * @author rohitsharma
  */
-public interface Interceptor {
+public interface ResponseInterceptor {
     NetworkResponse intercept(NetworkResponse response);
 }

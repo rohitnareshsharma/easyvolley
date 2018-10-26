@@ -3,7 +3,7 @@ package com.easyvolley.interceptors.impl;
 import android.util.Log;
 
 import com.android.volley.NetworkResponse;
-import com.easyvolley.interceptors.Interceptor;
+import com.easyvolley.interceptors.ResponseInterceptor;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,11 +12,11 @@ import java.util.zip.GZIPInputStream;
 
 /**
  * GZIP interceptor to convert gzipped bytes to default charset.
- * See {@link Interceptor}
+ * See {@link ResponseInterceptor}
  *
  * @author rohitsharma
  */
-public class GzipInterceptor implements Interceptor {
+public class GzipInterceptor implements ResponseInterceptor {
 
     @Override
     public NetworkResponse intercept(NetworkResponse response) {
