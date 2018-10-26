@@ -35,7 +35,7 @@ ETAG support auto works in requests. You will get cached copy if server is retur
 
 # Gradle
 ```groovy
-implementation 'com.spandexship:easyvolley:0.1.6'
+implementation 'com.spandexship:easyvolley:0.1.7'
 ```
 
 # How to use it
@@ -154,8 +154,8 @@ before executing, or like adding some thing common to each requests.
 ```java
         NetworkClient.addRequestInterceptor(new RequestInterceptor() {
             @Override
-            public NetworkRequest intercept(NetworkRequest response) {
-                return null;
+            public NetworkRequest intercept(NetworkRequest request) {
+                return request;
             }
         });
 ```
