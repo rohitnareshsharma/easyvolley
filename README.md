@@ -35,7 +35,7 @@ ETAG support auto works in requests. You will get cached copy if server is retur
 
 # Gradle
 ```groovy
-implementation 'com.spandexship:easyvolley:0.1.4'
+implementation 'com.spandexship:easyvolley:0.1.5'
 ```
 
 # How to use it
@@ -55,7 +55,7 @@ Now make GET request like below to get raw response in String.
         NetworkClient.get("http://demo0736492.mockable.io/test")
                 .setCallback(new Callback<String>() {
                     @Override
-                    public void onSuccess(String o) {
+                    public void onSuccess(String o, EasyVolleyResponse response) {
                         Log.d(TAG, "Response is + o");
                     }
 
@@ -71,7 +71,7 @@ Make GET request auto mapped to a POJO.
         NetworkClient.get("http://demo0736492.mockable.io/test")
                 .setCallback(new Callback<Test>() {
                     @Override
-                    public void onSuccess(Test o) {
+                    public void onSuccess(Test o, EasyVolleyResponse response) {
                         Log.d(TAG, "Response Recieved" + o.msg);
                     }
 
@@ -93,7 +93,7 @@ Make GET request auto mapped to a JSONObject.
         NetworkClient.get("http://demo0736492.mockable.io/test")
                 .setCallback(new Callback<JSONObject>() {
                     @Override
-                    public void onSuccess(JSONObject o) {
+                    public void onSuccess(JSONObject o, EasyVolleyResponse response) {
                         Log.d(TAG, "Response Recieved" + o);
                     }
 
@@ -110,7 +110,7 @@ Make POST request and response auto mapped to a POJO.
                 .setRequestBody("Test Post Body")
                 .setCallback(new Callback<Test>() {
                     @Override
-                    public void onSuccess(Test o) {
+                    public void onSuccess(Test o, EasyVolleyResponse response) {
                         Log.d(TAG, "Response Recieved" + o.msg);
                     }
 
