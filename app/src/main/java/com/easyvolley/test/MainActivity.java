@@ -11,6 +11,9 @@ import com.easyvolley.EasyVolleyError;
 import com.easyvolley.EasyVolleyResponse;
 import com.easyvolley.NetworkClient;
 import com.easyvolley.NetworkPolicy;
+import com.easyvolley.NetworkRequest;
+import com.easyvolley.interceptors.RequestInterceptor;
+import com.easyvolley.interceptors.ResponseInterceptor;
 
 import java.util.List;
 import java.util.Map;
@@ -105,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_drop_cache).setOnClickListener(v -> {
              NetworkClient.dropAllCache();
+        });
+
+        NetworkClient.addRequestInterceptor(new RequestInterceptor() {
+            @Override
+            public NetworkRequest intercept(NetworkRequest response) {
+                return null;
+            }
         });
 
     }

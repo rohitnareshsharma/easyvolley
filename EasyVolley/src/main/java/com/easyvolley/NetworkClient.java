@@ -97,8 +97,8 @@ public class NetworkClient {
      *
      * @param  responseInterceptor Custom interceptor to be registered.
      */
-    public void addResponseInterceptor(ResponseInterceptor responseInterceptor) {
-        responseInterceptors.add(responseInterceptor);
+    public static void addResponseInterceptor(ResponseInterceptor responseInterceptor) {
+        instance.responseInterceptors.add(responseInterceptor);
     }
 
     /**
@@ -110,8 +110,8 @@ public class NetworkClient {
      *
      * @param  requestInterceptor Custom interceptor to be registered.
      */
-    public void addRequestInterceptor(RequestInterceptor requestInterceptor) {
-        requestInterceptors.add(requestInterceptor);
+    public static void addRequestInterceptor(RequestInterceptor requestInterceptor) {
+        instance.requestInterceptors.add(requestInterceptor);
     }
 
     /**
