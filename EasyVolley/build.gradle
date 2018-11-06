@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 5
-        versionName "0.1.7"
+        versionCode 6
+        versionName "0.1.8"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -51,7 +51,7 @@ ext {
     siteUrl = 'https://github.com/rohitnareshsharma/easyvolley'
     gitUrl = 'https://github.com/rohitnareshsharma/easyvolley.git'
 
-    libraryVersion = '0.1.7'
+    libraryVersion = '0.1.8'
 
     developerId = 'spandexship'
     developerName = 'Rohit Sharma'

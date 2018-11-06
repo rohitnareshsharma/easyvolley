@@ -229,6 +229,7 @@ public class NetworkClient {
             instance.initCacheOnlyRequestQueue();
         }
 
+        networkRequest.setSequence(instance.mRequestQueue.getSequenceNumber());
         instance.mCacheOnlyQueue.add(networkRequest);
     }
 
