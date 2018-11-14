@@ -35,7 +35,7 @@ ETAG support auto works in requests. You will get cached copy if server is retur
 
 # Gradle
 ```groovy
-implementation 'com.spandexship:easyvolley:0.1.8'
+implementation 'com.spandexship:easyvolley:0.1.9'
 ```
 
 # How to use it
