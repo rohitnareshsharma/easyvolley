@@ -268,15 +268,15 @@ public class NetworkRequestBuilder {
         request = new NetworkRequest(mRequestType,
                 getUrl(), mHeaders, mParams, mRequestBody, this::onResponse, this::onError);
 
-        request.setRetryPolicy(new DefaultRetryPolicy(mSocketTimeoutMs,
-                mMaxNumRetries, mBackoffMultiplier));
-
         List<RequestInterceptor> requestInterceptors = NetworkClient.getRequestInterceptor();
 
         // Check for requestInterceptors if any
         for(RequestInterceptor i : requestInterceptors) {
             request = i.intercept(request);
         }
+
+        request.setRetryPolicy(new DefaultRetryPolicy(mSocketTimeoutMs,
+                mMaxNumRetries, mBackoffMultiplier));
 
         // Enqueue it
         add(request);
