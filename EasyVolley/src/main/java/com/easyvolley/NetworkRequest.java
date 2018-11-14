@@ -34,6 +34,9 @@ public class NetworkRequest extends StringRequest {
     // Raw request body. This will be used for Network request type POST
     private byte[] mRequestBody;
 
+    // Response Listener
+    private Response.Listener<String> mResponseListener;
+
     /**
      * Request headers. There is default set of headers which is pre added
      * to the headers field.
@@ -66,6 +69,8 @@ public class NetworkRequest extends StringRequest {
                           Response.ErrorListener errorListener) {
 
         super(method, url, listener, errorListener);
+
+        mResponseListener = listener;
 
         // Add the supplied headers to the request header map
         if(headers != null) {
@@ -109,8 +114,13 @@ public class NetworkRequest extends StringRequest {
 
     // Return the params for request body. This will be used by Volley network engine
     @Override
-    protected Map<String, String> getParams() {
+    public Map<String, String> getParams() {
         return mParams;
+    }
+
+
+    public Response.Listener<String> getResponseListener() {
+        return mResponseListener;
     }
 
     // Handle the network response here. All responseInterceptors will get the opportunity here.
