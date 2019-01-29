@@ -164,7 +164,7 @@ public class NetworkClient {
     private void initRequestQueue() {
         if (mRequestQueue == null) {
             Cache cache = new DiskBasedCache(mContext.getCacheDir(), defaultDiskCacheSize);
-            Network network = new BasicNetwork(new HurlStack());
+            Network network = new BasicNetwork(new OkHttpStack());
             mRequestQueue = new RequestQueue(cache, network);
 
             // Don't forget to start the volley request queue
