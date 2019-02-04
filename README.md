@@ -19,6 +19,8 @@ Why Volley and not the Retrofit? I personally like Volley because of its simplic
 customization. Also i feel it pain declaring interfaces just for network calls. I like bare naked
 url endpoint. Smaller the code better it is.
 
+It is using okhttp3-urlconnection at the core of it so it is HTTP 2.0 compliant. 
+
 # Caching
 
 Caching is super important to ensure our responses are fast and bandwidth usage is minimal.
@@ -35,7 +37,7 @@ ETAG support auto works in requests. You will get cached copy if server is retur
 
 # Gradle
 ```groovy
-implementation 'com.spandexship:easyvolley:0.1.11'
+implementation 'com.spandexship:easyvolley:0.2.1'
 ```
 
 # How to use it
