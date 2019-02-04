@@ -51,6 +51,8 @@ public class NetworkRequest extends StringRequest {
     // Network response object. It will be null in case request fails.
     private NetworkResponse networkResponse;
 
+    private Priority mPriority = Priority.NORMAL;
+
     /**
      * NetworkRequest constructor with all method type supported.
      * See {@link Method}
@@ -68,7 +70,8 @@ public class NetworkRequest extends StringRequest {
                           Map<String, String> params,
                           byte[] requestBody,
                           Response.Listener<String> listener,
-                          Response.ErrorListener errorListener) {
+                          Response.ErrorListener errorListener,
+                          Priority priority) {
 
         super(method, url, listener, errorListener);
 
@@ -85,6 +88,7 @@ public class NetworkRequest extends StringRequest {
         }
 
         mRequestBody = requestBody;
+        mPriority = priority;
     }
 
     //Network Request constructor for GET type of request.
@@ -92,7 +96,7 @@ public class NetworkRequest extends StringRequest {
                           Map<String, String> headers,
                           Response.Listener<String> listener,
                           Response.ErrorListener errorListener) {
-        this(Method.GET, url, headers, null, null, listener, errorListener);
+        this(Method.GET, url, headers, null, null, listener, errorListener, Priority.NORMAL);
     }
 
     // Return the headers for this request. This will be used by Volley network engine
@@ -154,5 +158,10 @@ public class NetworkRequest extends StringRequest {
      */
     public NetworkResponse getNetworkResponse() {
         return networkResponse;
+    }
+
+    @Override
+    public Priority getPriority() {
+        return mPriority;
     }
 }

@@ -12,6 +12,7 @@ import com.easyvolley.EasyVolleyResponse;
 import com.easyvolley.NetworkClient;
 import com.easyvolley.NetworkPolicy;
 import com.easyvolley.NetworkRequest;
+import com.easyvolley.NetworkRequestBuilder;
 import com.easyvolley.interceptors.RequestInterceptor;
 import com.easyvolley.interceptors.ResponseInterceptor;
 
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 .execute();
 
         NetworkClient.get("http://demo0736492.mockable.io/test2")
+                .setPriority(NetworkRequestBuilder.Priority.HIGH)
                 .setCallback(new Callback<List<Test>>() {
                     @Override
                     public void onSuccess(List<Test> o, EasyVolleyResponse response) {
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         NetworkClient.post("http://demo0736492.mockable.io/postTest")
+                .setPriority(NetworkRequestBuilder.Priority.LOW)
                 .setCallback(new Callback<Test>() {
                     @Override
                     public void onSuccess(Test o, EasyVolleyResponse response) {
@@ -108,13 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_drop_cache).setOnClickListener(v -> {
              NetworkClient.dropAllCache();
-        });
-
-        NetworkClient.addRequestInterceptor(new RequestInterceptor() {
-            @Override
-            public NetworkRequest intercept(NetworkRequest response) {
-                return null;
-            }
         });
 
     }

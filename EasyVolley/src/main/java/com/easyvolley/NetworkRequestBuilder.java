@@ -3,11 +3,10 @@ package com.easyvolley;
 import android.net.Uri;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.easyvolley.dispatcher.ResponseDispatcher;
 import com.easyvolley.interceptors.RequestInterceptor;
-import com.easyvolley.interceptors.ResponseInterceptor;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -54,8 +53,19 @@ public class NetworkRequestBuilder {
     // backoffMultiplier
     private float mBackoffMultiplier = DefaultRetryPolicy.DEFAULT_BACKOFF_MULT;
 
+    // Current priority of request
+    private Request.Priority mPriority = Request.Priority.NORMAL;
 
-
+    /**
+     * Priority values.  Requests will be processed from higher priorities to
+     * lower priorities, in FIFO order.
+     */
+    public enum Priority {
+        LOW,
+        NORMAL,
+        HIGH,
+        IMMEDIATE
+    }
 
     // Core request object
     private NetworkRequest request;
@@ -220,6 +230,24 @@ public class NetworkRequestBuilder {
     }
 
     /**
+     * Set the priority for this request.
+     *
+     * @param priority selected priority.
+     * @return Current network builder
+     */
+    public NetworkRequestBuilder setPriority(Priority priority) {
+        if(priority != null) {
+            switch (priority) {
+                case LOW: mPriority = Request.Priority.LOW; break;
+                case NORMAL: mPriority = Request.Priority.NORMAL; break;
+                case HIGH: mPriority = Request.Priority.HIGH; break;
+                case IMMEDIATE: mPriority = Request.Priority.IMMEDIATE; break;
+            }
+        }
+        return this;
+    }
+
+    /**
      * Internal Volley response handler. It will dispatch response
      * correctly to the client.
      *
@@ -266,7 +294,7 @@ public class NetworkRequestBuilder {
 
         // Create the request
         request = new NetworkRequest(mRequestType,
-                getUrl(), mHeaders, mParams, mRequestBody, this::onResponse, this::onError);
+                getUrl(), mHeaders, mParams, mRequestBody, this::onResponse, this::onError, mPriority);
 
         List<RequestInterceptor> requestInterceptors = NetworkClient.getRequestInterceptor();
 
