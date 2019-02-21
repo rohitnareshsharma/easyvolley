@@ -2,6 +2,7 @@ package com.easyvolley;
 
 import android.net.Uri;
 
+import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -55,6 +56,13 @@ public class NetworkRequestBuilder {
 
     // Current priority of request
     private Request.Priority mPriority = Request.Priority.NORMAL;
+
+    /*
+     * Attempt to retrieve cache for this request if available.
+     * This will be used for the case of #NetworkPolicy.IGNORE_READ_BUT_WRITE_CACHE mode only.
+     * It will be null for all other cases.
+     */
+    private Cache.Entry cachedEntry = null;
 
     /**
      * Priority values.  Requests will be processed from higher priorities to
@@ -267,6 +275,13 @@ public class NetworkRequestBuilder {
         if(mCallback != null) {
             mCallback.onError(EasyVolleyError.from(error));
         }
+
+        // Check if it is NetworkPolicy.IGNORE_READ_BUT_WRITE_CACHE mode and
+        // we have a cache entry removed from original cache for forcing network
+        // request. As now we have received an error we are refilling it with same.
+        if(cachedEntry != null) {
+            NetworkClient.getRequestQueue().getCache().put(request.getCacheKey(), cachedEntry);
+        }
     }
 
     /**
@@ -280,6 +295,19 @@ public class NetworkRequestBuilder {
 
         // See if no cache mode is requested.
         request.setShouldCache(mNetworkPolicy != NetworkPolicy.NO_CACHE);
+
+        if(mNetworkPolicy == NetworkPolicy.IGNORE_READ_BUT_WRITE_CACHE) {
+            // Attempt to retrieve this item from cache.
+            Cache.Entry entry = NetworkClient.getRequestQueue().getCache().get(request.getCacheKey());
+            if (entry != null) {
+                // Save cache reference locally only, it will be used in case request fails
+                cachedEntry = entry;
+
+                // Remove it from the network cache for forcing network request.
+                // Incase of network failure we will refill the request with cached entry
+                NetworkClient.getRequestQueue().getCache().remove(request.getCacheKey());
+            }
+        }
 
         // Enqueue it to network queue
         NetworkClient.addNetworkRequest(request);

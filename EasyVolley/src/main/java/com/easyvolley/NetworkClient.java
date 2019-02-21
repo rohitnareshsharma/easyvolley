@@ -241,6 +241,13 @@ public class NetworkClient {
     }
 
     /**
+     * Drop all the network cache.
+     */
+    public static void dropCache(String key) {
+        instance.mRequestQueue.getCache().remove(key);
+    }
+
+    /**
      * Set default socket of all the requests.
      *
      * @see NetworkRequestBuilder#setSocketTimeoutMS(int) for overriding it for individual request
