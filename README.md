@@ -127,10 +127,10 @@ Make POST request and response auto mapped to a POJO.
 
 Framework support 4 network policies for request.
 
-1. NetworkPolicy.NO_CACHE : Ignore disk cache and force network request. Response will not be cached also
-2. NetworkPolicy.OFFLINE : Check through disk cache only. No network.
-3. NetworkPolicy.IGNORE_READ_BUT_WRITE_CACHE : Ignore disk cache and force network request. Response will be cached.
-3. NetworkPolicy.DEFAULT : Check with cache if valid return from it else make network call.
+1. NetworkPolicy.<b>NO_CACHE</b> : Ignore disk cache and force network request. Response will not be cached also
+2. NetworkPolicy.<b>OFFLINE</b> : Check through disk cache only. No network.
+3. NetworkPolicy.<b>IGNORE_READ_BUT_WRITE_CACHE</b> : Ignore disk cache and force network request. Response will be cached.
+3. NetworkPolicy.<b>DEFAULT</b> : Check with cache if valid return from it else make network call.
 
 ```java
         NetworkClient.get("http://demo0736492.mockable.io/test")
