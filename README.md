@@ -37,7 +37,7 @@ ETAG support auto works in requests. You will get cached copy if server is retur
 
 # Gradle
 ```groovy
-implementation 'com.spandexship:easyvolley:0.2.1'
+implementation 'com.spandexship:easyvolley:0.3.0'
 ```
 
 # How to use it
@@ -125,10 +125,11 @@ Make POST request and response auto mapped to a POJO.
 
 # NetworkPolicy
 
-Framework support 3 network policies for request.
+Framework support 4 network policies for request.
 
 1. NetworkPolicy.NO_CACHE : Ignore disk cache and force network request. Response will not be cached also
 2. NetworkPolicy.OFFLINE : Check through disk cache only. No network.
+3. NetworkPolicy.IGNORE_READ_BUT_WRITE_CACHE : Ignore disk cache and force network request. Response will be cached.
 3. NetworkPolicy.DEFAULT : Check with cache if valid return from it else make network call.
 
 ```java
