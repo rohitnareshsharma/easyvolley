@@ -164,4 +164,12 @@ public class NetworkRequest extends StringRequest {
     public Priority getPriority() {
         return mPriority;
     }
+
+    /**
+     * Cancel this request. Response success listener should not invoke here if
+     * not published.
+     */
+    public void cancelRequest() {
+        cancel();
+    }
 }

@@ -8,7 +8,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 13
-        versionName "0.3.0"
+        versionName "0.4.2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -30,7 +30,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.volley:volley:1.1.1'
+    api 'com.android.volley:volley:1.1.1'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.12.1'
 
@@ -53,7 +53,7 @@ ext {
     siteUrl = 'https://github.com/rohitnareshsharma/easyvolley'
     gitUrl = 'https://github.com/rohitnareshsharma/easyvolley.git'
 
-    libraryVersion = '0.3.0'
+    libraryVersion = '0.4.2'
 
     developerId = 'spandexship'
     developerName = 'Rohit Sharma'

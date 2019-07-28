@@ -316,7 +316,7 @@ public class NetworkRequestBuilder {
     /**
      * Execute the network request.
      */
-    public void execute() {
+    public NetworkRequest execute() {
 
         if(getUrl() == null) throw new IllegalArgumentException("Empty URL for network request");
 
@@ -336,6 +336,8 @@ public class NetworkRequestBuilder {
 
         // Enqueue it
         add(request);
+
+        return request;
     }
 
 }

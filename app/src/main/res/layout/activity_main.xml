@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context="com.easyvolleytest.MainActivity">
+    tools:context="com.easyvolley.test.MainActivity">
 
     <TextView
         android:id="@+id/text1"
@@ -13,23 +13,11 @@
         android:layout_height="wrap_content"
         android:text="Hello World!" />
 
-    <TextView
-        android:id="@+id/text2"
+    <Button
+        android:id="@+id/btn_make_normal_request"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
-
-    <TextView
-        android:id="@+id/text3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-
-    <TextView
-        android:id="@+id/text4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Make Normal request" />
 
     <Button
         android:id="@+id/btn_make_offline_request"
@@ -38,10 +26,10 @@
         android:text="Make offline request" />
 
     <Button
-        android:id="@+id/btn_drop_cache"
+        android:id="@+id/btn_make_ignore_read_update_cache_request"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Drop All Cache" />
+        android:text="Make ignore read cache request" />
 
 
 </LinearLayout>
