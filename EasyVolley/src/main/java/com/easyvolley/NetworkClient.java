@@ -20,7 +20,6 @@ import com.easyvolley.dispatcher.CacheOnlyDispatcher;
 import com.easyvolley.interceptors.RequestInterceptor;
 import com.easyvolley.interceptors.ResponseInterceptor;
 import com.easyvolley.interceptors.impl.GzipInterceptor;
-import com.easyvolley.okhttp3.VolleyOkHttp3StackInterceptors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,7 +164,7 @@ public class NetworkClient {
     private void initRequestQueue() {
         if (mRequestQueue == null) {
             Cache cache = new DiskBasedCache(mContext.getCacheDir(), defaultDiskCacheSize);
-            Network network = new BasicNetwork(new VolleyOkHttp3StackInterceptors());
+            Network network = new BasicNetwork(new HurlStack());
             mRequestQueue = new RequestQueue(cache, network);
 
             // Don't forget to start the volley request queue
