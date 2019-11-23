@@ -48,7 +48,7 @@ public class GzipInterceptor implements ResponseInterceptor {
                                                    response.allHeaders);
 
                 } catch (IOException e) {
-                    Log.e("GzipInterceptor", e.getMessage(), e);
+                    // We can safely ignore this
                 }
             }
         }
